@@ -4,11 +4,10 @@ export class Injector<T extends object> {
   private classConstructorArguments: any[];
 
   public constructor(
-    className: string,
     classConstructor: new (...args: any[]) => T,
     classConstructorArguments: any[]
   ) {
-    this.className = className;
+    this.className = classConstructor.name;
     this.classType = classConstructor;
     this.classConstructorArguments = classConstructorArguments;
   }
