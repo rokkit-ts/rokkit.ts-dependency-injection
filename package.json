@@ -1,0 +1,51 @@
+{
+  "name": "rokkit.ts-dependency-injection",
+  "version": "0.1.0",
+  "description": "TypeScript dependency injection library using decorators for the rokkit.ts framework and other projects",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "test": "mocha -r ts-node/register src/**/*.spec.ts",
+    "build": "tsc --build tsconfig.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rokkit-ts/rokkit.ts-dependency-injection.git"
+  },
+  "keywords": [
+    "Dependency",
+    "injection",
+    "rokkit.ts"
+  ],
+  "author": "Jann Deterling",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rokkit-ts/rokkit.ts-dependency-injection/issues"
+  },
+  "homepage": "https://github.com/rokkit-ts/rokkit.ts-dependency-injection#readme",
+  "devDependencies": {
+    "@types/chai": "^4.2.0",
+    "@types/fs-extra": "^8.0.0",
+    "@types/node": "^12.7.3",
+    "chai": "^4.2.0",
+    "husky": "^3.0.4",
+    "mocha": "^6.2.0",
+    "mocha-typescript": "^1.1.17",
+    "prettier": "^1.18.2",
+    "pretty-quick": "^1.11.1",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.19.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-eslint-rules": "^5.4.0",
+    "typescript": "^3.6.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "dependencies": {
+    "fs-extra": "^8.1.0",
+    "reflect-metadata": "^0.1.13"
+  }
+}
