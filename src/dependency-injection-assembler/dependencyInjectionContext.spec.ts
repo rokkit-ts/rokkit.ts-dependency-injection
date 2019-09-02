@@ -33,7 +33,6 @@ export class DependencyInjectionContextSpec {
       TestClass1,
       ["test"]
     );
-    // TODO do I really need that name?
     context.addInjector("TestClass", injector);
     assert.isArray(context.getAllInjectors());
     assert.isNotEmpty(context.getAllInjectors());
