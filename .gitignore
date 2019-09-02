@@ -178,3 +178,4 @@ typings/
 
 # Exclude dist
 dist
+lib
