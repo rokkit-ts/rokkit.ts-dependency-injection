@@ -14,12 +14,20 @@ class DependencyInjectionAssembler {
   }
 
   public registerContext(context: DependencyInjectionContext): void {
-    this.userContexts.push(context);
+    if (!this.doesContextExist(context)) {
+      this.userContexts.push(context);
+    } else {
+      throw new Error("Context already exists.");
+    }
   }
 
   public createContext(contextName: string): void {
-    const userContext = new DependencyInjectionContext(contextName);
-    this.userContexts.push(userContext);
+    if (!this.doesContextExist(contextName)) {
+      const userContext = new DependencyInjectionContext(contextName);
+      this.userContexts.push(userContext);
+    } else {
+      throw new Error("Context already exists.");
+    }
   }
 
   public retrieveContext(
@@ -33,11 +41,28 @@ class DependencyInjectionAssembler {
     );
   }
 
-  public doesContextExist(contextName: string): boolean {
-    return (
-      contextName === this.DEFAULT_CONTEXT_NAME ||
-      !!this.userContexts.find(context => context.ContextName === contextName)
-    );
+  public retrieveDefaultContext(): DependencyInjectionContext {
+    return this.defaultContext;
+  }
+
+  public doesContextExist(
+    context: string | DependencyInjectionContext
+  ): boolean {
+    if (typeof context === "string") {
+      return (
+        context === this.DEFAULT_CONTEXT_NAME ||
+        !!this.userContexts.find(
+          savedContext => savedContext.ContextName === context
+        )
+      );
+    } else {
+      return (
+        this.defaultContext.ContextName === context.ContextName ||
+        !!this.userContexts.find(
+          savedContext => savedContext.ContextName === context.ContextName
+        )
+      );
+    }
   }
 
   public registerInjector<T extends object>(
