@@ -12,8 +12,7 @@ export function Injectable(contextName?: string): Function {
 
 export function Inject(injectionValue: any): Function {
   return (target: object, propertyKey: string, parameterIndex: number) => {
-    // TODO should only be usable on a constructor!!
-    console.log(propertyKey);
+    if (propertyKey) throw new Error("Could only be used on a constructor");
     DependencyInjectionDecoratorHelper.registerInjectableArgument(
       target as Function,
       parameterIndex,
