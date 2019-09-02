@@ -4,7 +4,7 @@ TypeScript dependency injection library using decorators for the rokkit.ts frame
 
 ## Install and Build
 
-To install all dependencies:
+To install the package:
 
 ```bash
 npm install rokkit.ts-di
