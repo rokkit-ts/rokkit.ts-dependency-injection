@@ -12,7 +12,8 @@ npm install rokkit.ts-di
 
 ## Usage
 
-Class that you want to be injected:
+The following example show a simple usage of the package.
+The first listing shows the class that you want to be injected.
 
 ```typescript
 import { Injectable, Inject } from "rokkit.ts-di";
@@ -43,6 +44,29 @@ const instance: DecoratedClass = injector.resolveInstance();
 console.log(`Foo: ${instance.foo}, Bar: ${instance.bar}`);
 // Output: Foo: test, Bar: 0.11
 ```
+
+The dependencyInjectionAssembler provides further methods to manage injectors.
+Injectors are stored in contexts. Each context is used to separate injectors.
+The dependencyInjectionAssembler provides a default context that will be used, if you will not provide furhter
+information.
+
+### API Description
+
+| Decorators |                                                |
+| :--------: | :--------------------------------------------- |
+|  Methods:  | <code>@Injectable(contextName?: string)</code> |
+|            | <code>@Inject(value: any)</code>               |
+
+|  Class:  | dependencyInjectionAssembler                                                     |
+| :------: | :------------------------------------------------------------------------------- |
+| Methods: | <code>createContext(contextName: string)</code>                                  |
+|          | <code>registerContext(context: DependencyInjectionContext)</code>                |
+|          | <code>retrieveContext(contextName: string)</code>                                |
+|          | <code>retrieveDefaultContext()</code>                                            |
+|          | <code>doesContextExist(context: string &#124; DependencyInjectionContext)</code> |
+|          | <code>registerInjector(injector: Injector<T>, contextName?: string)</code>       |
+|          | <code>retrieveInjector(injectorName: string, contextName?: string)</code>        |
+|          | <code>retrieveInjectorByDefaultContext(injectorName: string)</code>              |
 
 ## License
 
