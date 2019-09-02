@@ -10,16 +10,19 @@ export class DependencyInjectionDecoratorHelper {
 
   public static registerInjectorOnAssembler<
     T extends new (...args: any[]) => {}
-  >(constructor: T, contextName: string) {
+  >(constructor: T, contextName?: string) {
     const classConstructorArguments: any[] = DependencyInjectionDecoratorHelper.getInjectorClassConstructorArguments(
       constructor
     );
     const injector: Injector<{}> = InjectorFactory.createInjector(
-      constructor.name,
       constructor,
       classConstructorArguments
     );
-    if (!dependencyInjectionAssembler.doesContextExist(contextName)) {
+
+    if (
+      contextName &&
+      !dependencyInjectionAssembler.doesContextExist(contextName)
+    ) {
       dependencyInjectionAssembler.createContext(contextName);
     }
     dependencyInjectionAssembler.registerInjector(injector, contextName);
@@ -32,7 +35,7 @@ export class DependencyInjectionDecoratorHelper {
   ) {
     const injectableArgument: InjectableConstructorArgument = {
       index: parameterIndex,
-      value: value
+      value
     };
     const injectionArgs: InjectableConstructorArgument[] = Reflect.getMetadata(
       DependencyInjectionDecoratorHelper.INJECTABLE_CONSTRUCTOR_ARGUMENTS,
