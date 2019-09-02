@@ -16,6 +16,17 @@ export class InjectorSpec {
     assert.isNotEmpty(instance);
     assert.equal(instance.aString, "test");
   }
+
+  @test
+  public changeClassConstructorArgumentsOnInjector(): void {
+    const injector: Injector<TestClass1> = new Injector(TestClass1, ["test"]);
+    assert.exists(injector);
+    assert.isNotEmpty(injector);
+    assert.equal(injector.ClassName, "TestClass1");
+    expect(injector.ClassConstructorArguments).contains("test");
+    injector.ClassConstructorArguments = ["changed"];
+    expect(injector.ClassConstructorArguments).contains("changed");
+  }
 }
 
 // tslint:disable-next-line:max-classes-per-file
