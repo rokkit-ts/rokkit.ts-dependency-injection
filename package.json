@@ -1,5 +1,5 @@
 {
-  "name": "rokkit.ts-dependency-injection",
+  "name": "@rokkit.ts/dependency-injection",
   "version": "0.1.0",
   "description": "TypeScript dependency injection library using decorators for the rokkit.ts framework and other projects",
   "main": "lib/index.js",
