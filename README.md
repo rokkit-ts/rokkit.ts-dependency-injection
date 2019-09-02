@@ -68,6 +68,16 @@ information.
 |          | <code>retrieveInjector(injectorName: string, contextName?: string)</code>        |
 |          | <code>retrieveInjectorByDefaultContext(injectorName: string)</code>              |
 
+## Contribution
+
+If you want to contribute to the project, please don't hesitate to send feedback, create issues or a pull request for
+open ones.
+
+## Upcoming features
+
+The next feature enables the injectable to register its own constructor arguments and searches for Injectors that
+could be used to instantiate these.
+
 ## License
 
 Rokkit.ts-dependency-injection is Open Source software released under the MIT License.
