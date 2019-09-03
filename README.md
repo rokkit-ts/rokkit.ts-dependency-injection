@@ -16,7 +16,7 @@ The following example show a simple usage of the package.
 The first listing shows the class that you want to be injected.
 
 ```typescript
-import { Injectable, Inject } from "rokkit.ts-di";
+import { Injectable, Inject } from "@rokkit.ts/dependency-injection";
 
 @Injectable()
 class DecoratedClass {
