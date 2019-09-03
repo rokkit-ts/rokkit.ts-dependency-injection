@@ -34,7 +34,10 @@ After annotating the class, we could retrieve the injector by the "dependencyInj
 With this injector we could now create an instance of the corresponding class.
 
 ```typescript
-import { dependencyInjectionAssembler, Injector } from "rokkit.ts-di";
+import {
+  dependencyInjectionAssembler,
+  Injector
+} from "@rokkit.ts/dependency-injection";
 
 const injector: Injector<
   DecoratedClass
