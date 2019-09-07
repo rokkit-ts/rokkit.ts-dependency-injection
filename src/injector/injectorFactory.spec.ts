@@ -6,16 +6,44 @@ import { InjectorFactory } from "./injectorFactory";
 @suite()
 export class InjectorFactorySpec {
   @test()
-  public createInjector(): void {
-    const injector: Injector<TestClass1> = InjectorFactory.createInjector(
-      TestClass1,
-      ["test"]
-    );
-    const instance: TestClass1 = injector.createInstance();
+  public createInjectorWithAnyArgList(): void {
+    const injector: Injector<
+      InjectorFactoryTestClass
+    > = InjectorFactory.createInjector(InjectorFactoryTestClass, ["test"]);
+    const instance: InjectorFactoryTestClass = injector.createInstance();
     assert.exists(injector);
     assert.isNotEmpty(injector);
-    assert.equal(injector.ClassName, "TestClass1");
-    expect(injector.ClassConstructorArguments).contains("test");
+    assert.equal(injector.ClassName, "InjectorFactoryTestClass");
+    expect(injector.ClassConstructorArguments[0]).deep.include({
+      index: 0,
+      type: "string",
+      value: "test"
+    });
+    assert.exists(instance);
+    assert.isNotEmpty(instance);
+    assert.equal(instance.aString, "test");
+  }
+
+  @test()
+  public createInjectorWithInjectorArgList(): void {
+    const injector: Injector<
+      InjectorFactoryTestClass
+    > = InjectorFactory.createInjector(InjectorFactoryTestClass, [
+      {
+        index: 0,
+        type: "string",
+        value: "test"
+      }
+    ]);
+    const instance: InjectorFactoryTestClass = injector.createInstance();
+    assert.exists(injector);
+    assert.isNotEmpty(injector);
+    assert.equal(injector.ClassName, "InjectorFactoryTestClass");
+    expect(injector.ClassConstructorArguments[0]).deep.include({
+      index: 0,
+      type: "string",
+      value: "test"
+    });
     assert.exists(instance);
     assert.isNotEmpty(instance);
     assert.equal(instance.aString, "test");
@@ -23,7 +51,7 @@ export class InjectorFactorySpec {
 }
 
 // tslint:disable-next-line:max-classes-per-file
-class TestClass1 {
+class InjectorFactoryTestClass {
   public aString: string;
 
   constructor(aString: string) {

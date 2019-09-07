@@ -6,3 +6,4 @@
 
 export * from "./injector";
 export * from "./injectorFactory";
+export * from "./injectorConstructorArgument";
