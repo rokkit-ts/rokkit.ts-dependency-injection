@@ -44,6 +44,7 @@
     }
   },
   "dependencies": {
+    "@rokkit.ts/class-declaration-resolver": "^0.1.1",
     "reflect-metadata": "^0.1.13"
   }
 }
