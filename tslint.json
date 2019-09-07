@@ -10,6 +10,12 @@
   },
   "jsRules": {},
   "rules": {
+    "member-ordering": [
+      true,
+      {
+        "order": "fields-first"
+      }
+    ],
     "no-unnecessary-type-assertion": true,
     "array-type": [true, "array"],
     "ban": [true, "setInterval", "setTimeout"],
