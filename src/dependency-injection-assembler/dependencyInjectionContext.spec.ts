@@ -31,7 +31,13 @@ export class DependencyInjectionContextSpec {
     const context = this.createContext();
     const injector: Injector<TestClass1> = new Injector<TestClass1>(
       TestClass1,
-      ["test"]
+      [
+        {
+          index: 0,
+          type: "string",
+          value: "test"
+        }
+      ]
     );
     context.addInjector("TestClass", injector);
     assert.isArray(context.getAllInjectors());
@@ -47,17 +53,35 @@ export class DependencyInjectionContextSpec {
     const context = this.createContext();
     const injector1: Injector<TestClass1> = new Injector<TestClass1>(
       TestClass1,
-      ["test"]
+      [
+        {
+          index: 0,
+          type: "string",
+          value: "test"
+        }
+      ]
     );
     context.addInjector("TestClass1", injector1);
     const injector2: Injector<TestClass1> = new Injector<TestClass1>(
       TestClass1,
-      ["test"]
+      [
+        {
+          index: 0,
+          type: "string",
+          value: "test"
+        }
+      ]
     );
-    context.addInjector("TestClass2", injector2);
+    context.addInjector("DependencyAssemblerTestClass2", injector2);
     const injector3: Injector<TestClass1> = new Injector<TestClass1>(
       TestClass1,
-      ["test"]
+      [
+        {
+          index: 0,
+          type: "string",
+          value: "test"
+        }
+      ]
     );
     context.addInjector("TestClass3", injector3);
     assert.isArray(context.getAllInjectors());
