@@ -104,38 +104,47 @@ export class DependencyInjectionAssemblerSpec {
 
   @test
   public registerInjector(): void {
-    const injector: Injector<TestClass1> = new Injector<TestClass1>(
-      TestClass1,
-      ["test"]
-    );
-
+    const injector: Injector<DependencyAssemblerTestClass1> = new Injector<
+      DependencyAssemblerTestClass1
+    >(DependencyAssemblerTestClass1, [
+      {
+        index: 0,
+        type: "string",
+        value: "test"
+      }
+    ]);
     dependencyInjectionAssembler.createContext("TEST-CLASS-CONTEXT");
     dependencyInjectionAssembler.registerInjector(
       injector,
       "TEST-CLASS-CONTEXT"
     );
-
     const retrievedInjector = dependencyInjectionAssembler.retrieveInjector(
-      "TestClass1",
+      "DependencyAssemblerTestClass1",
       "TEST-CLASS-CONTEXT"
     );
     assert.exists(retrievedInjector);
     assert.equal(retrievedInjector, injector);
 
     const retrievedInjector1 = dependencyInjectionAssembler.retrieveInjector(
-      "TestClass1"
+      "DependencyAssemblerTestClass1"
     );
+
     assert.exists(retrievedInjector1);
     assert.equal(retrievedInjector1, injector);
 
-    const injector2: Injector<TestClass2> = new Injector<TestClass2>(
-      TestClass2,
-      ["test2"]
-    );
+    const injector2: Injector<DependencyAssemblerTestClass2> = new Injector<
+      DependencyAssemblerTestClass2
+    >(DependencyAssemblerTestClass2, [
+      {
+        index: 0,
+        type: "string",
+        value: "test"
+      }
+    ]);
 
     dependencyInjectionAssembler.registerInjector(injector2);
     const retrievedInjector2 = dependencyInjectionAssembler.retrieveInjector(
-      "TestClass2",
+      "DependencyAssemblerTestClass2",
       dependencyInjectionAssembler.DEFAULT_CONTEXT_NAME
     );
     assert.exists(retrievedInjector2);
@@ -144,16 +153,16 @@ export class DependencyInjectionAssemblerSpec {
 }
 
 // tslint:disable-next-line:max-classes-per-file
-class TestClass1 {
+export class DependencyAssemblerTestClass1 {
   public aString: string;
 
-  constructor(aString: string) {
+  constructor(aString: string, test1: number) {
     this.aString = aString;
   }
 }
 
 // tslint:disable-next-line:max-classes-per-file
-class TestClass2 {
+export class DependencyAssemblerTestClass2 {
   public aString: string;
 
   constructor(aString: string) {
