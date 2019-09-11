@@ -10,10 +10,9 @@ import { InjectorConstructorArgument } from "../injector";
 
 /**
  * @class AutoClassDeclaration
- * Class that resolve the classDeclaration of the project source directory.
- * The default source code directory is './src'.
- * To change the default directory, you have to set the environment variable SRC_SCAN_DIR to the project path.
- * The environment variable must be set before the start of the application!
+ * @description Class that resolve the classDeclaration of the project source directory. The default source code
+ * directory is './src'. To change the default directory, you have to set the environment variable SRC_SCAN_DIR to
+ * the project path. The environment variable must be set before the start of the application!
  */
 class AutoClassDeclaration {
   // TODO test multiple paths for src directory if possible!
@@ -34,8 +33,8 @@ class AutoClassDeclaration {
   }
 
   /**
-   * Accessor for all ClassDeclarations scanned in the source directory.
-   * You should obviously use the get Methods to receive a specific ClassDeclaration instead of all.
+   * @description Accessor for all ClassDeclarations scanned in the source directory. You should obviously use the
+   * get Methods to receive a specific ClassDeclaration instead of all.
    * @return ReadonlyArray<ClassDeclaration>
    */
   public get ClassDeclarations(): ReadonlyArray<ClassDeclaration> {
@@ -43,8 +42,8 @@ class AutoClassDeclaration {
   }
 
   /**
-   * Gets a classDeclaration by a className. Returns a ClassDeclaration or undefined if no
-   * classDeclaration is found for the provided argument.
+   * @description Gets a classDeclaration by a className. Returns a ClassDeclaration or undefined if
+   * no classDeclaration is found for the provided argument.
    * @param className
    * @return ClassDeclaration | undefined
    */
@@ -58,8 +57,8 @@ class AutoClassDeclaration {
   }
 
   /**
-   * Gets a classDeclaration by a fileName and a className. Returns a ClassDeclaration or undefined if no
-   * classDeclaration is found for the provided arguments.
+   * @description Gets a classDeclaration by a fileName and a className. Returns a ClassDeclaration or undefined if
+   * no classDeclaration is found for the provided arguments.
    * @param fileName string of the file path to the specific searched class.
    * @param className string of the className of the specific searched class.
    * @return ClassDeclaration | undefined
@@ -78,8 +77,8 @@ class AutoClassDeclaration {
   }
 
   /**
-   * Scans a new sourceScanDirectory and updates the classDeclarations instance of this class.
-   * These updated classDeclarations will be used by all all components.
+   * @description Scans a new sourceScanDirectory and updates the classDeclarations instance of this class. These
+   * updated classDeclarations will be used by all all components.
    * @param sourceScanDirectory - directory path of the source code files.
    */
   public createNewClassDeclarations(sourceScanDirectory: string): void {
@@ -90,7 +89,7 @@ class AutoClassDeclaration {
   }
 
   /**
-   * Maps classDeclaration parameters with decorated arguments and returns a unified array of InjectorConstructorArgument[]
+   * @description Maps classDeclaration parameters with decorated arguments and returns a unified array of InjectorConstructorArgument[]
    * @param newArgs ConstructorParameter array from a classDeclaration
    * @param oldArgs InjectorConstructorArgument from the injected object. There can be missing parameters in the
    * decorated array, these will be filled with the classDecoration parameters.
@@ -111,8 +110,8 @@ class AutoClassDeclaration {
   }
 
   /**
-   * Sorting function for the constructor signatures, the constructor will be sorted by the lenght of its paramters.
-   * The constructor with the most parameters will come at first in the array.
+   * @description Sorting function for the constructor signatures, the constructor will be sorted by the length of its
+   * parameters. The constructor with the most parameters will come at first in the array.
    * @param current
    * @param next
    * @return number
@@ -150,7 +149,7 @@ const autoClassDeclaration: AutoClassDeclaration = new AutoClassDeclaration();
 
 /**
  * @export Singleton instance of the class AutoClassDeclaration
- * This instance is the only API to the classDeclarations. This class should only be used by internal components and
- * not by the users.
+ * @description This instance is the only API to the classDeclarations. This class should only be used by internal
+ * components and not by the users.
  */
 export default autoClassDeclaration;
