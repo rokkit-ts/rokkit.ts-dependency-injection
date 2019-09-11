@@ -7,10 +7,25 @@ import { DependencyInjectionDecoratorHelper } from "./dependencyInjectionDecorat
 export class DependencyInjectionDecoratorHelperSpec {
   @test
   public registerInjectorOnAssembler(): void {
-    DependencyInjectionDecoratorHelper.registerInjectorOnAssembler(TestClass1);
+    DependencyInjectionDecoratorHelper.registerInjectorOnAssembler(
+      DependencyInjectionHelperTestClass
+    );
 
     const injector = dependencyInjectionAssembler.retrieveInjector(
-      "TestClass1"
+      "DependencyInjectionHelperTestClass"
+    );
+    assert.exists(injector);
+    assert.isNotEmpty(injector);
+  }
+
+  @test
+  public registerInjectorOnAssemblerWithFileName(): void {
+    DependencyInjectionDecoratorHelper.registerInjectorOnAssembler(
+      DependencyInjectionHelperTestClass
+    );
+
+    const injector = dependencyInjectionAssembler.retrieveInjector(
+      "DependencyInjectionHelperTestClass"
     );
     assert.exists(injector);
     assert.isNotEmpty(injector);
@@ -19,24 +34,28 @@ export class DependencyInjectionDecoratorHelperSpec {
   @test
   public registerInjectableArgument(): void {
     DependencyInjectionDecoratorHelper.registerInjectableArgument(
-      (TestClass1 as any).constructor,
+      (DependencyInjectionHelperTestClass as any).constructor,
       0,
       "test"
     );
 
     const args: any[] = DependencyInjectionDecoratorHelper.getInjectorClassConstructorArguments(
-      (TestClass1 as any).constructor
+      (DependencyInjectionHelperTestClass as any).constructor
     );
 
     assert.isNotEmpty(args);
     assert.isArray(args);
     assert.equal(args.length, 1);
-    expect(args).to.include("test");
+    expect(args).deep.include({
+      index: 0,
+      type: "string",
+      value: "test"
+    });
   }
 }
 
 // tslint:disable-next-line:max-classes-per-file
-class TestClass1 {
+class DependencyInjectionHelperTestClass {
   public aString: string;
 
   constructor(aString: string) {
