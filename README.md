@@ -56,13 +56,15 @@ information.
 ### Automatic Constructor Argument scanning
 
 The package provides the ability to scan classes arguments automatically. Furthermore the injector will look up
-userObjects in the dependencyInjectionAssembler if any construcotr argument is not decorated with the <code>@Inject(value:
+userObjects in the dependencyInjectionAssembler if any constructor argument is not decorated with the <code>@Inject
+(value:
 any)</code> annotation.
 
 #### Code Example
 
 The first listing shows two classes the "FirstDecoratedClass" class has a dependency for the second class
-"SecondDecoratedClass". Note that both class are annotated as "@Injectable", but only the second class has "@Inject"
+"SecondDecoratedClass". Note that both class are annotated as <code>@Injectable</code>, but only the second class
+has <code>@Inject</code>
 annotation present on the constructor. The package will now scan all user source code files for the constructor
 argument and automatically adds the found arguments. This allows you to create an instance of "FirstDecoratedClass"
 without annotating the constructor with a specific value for user object.
