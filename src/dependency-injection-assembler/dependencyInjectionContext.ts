@@ -17,7 +17,7 @@ export class DependencyInjectionContext {
   }
 
   /**
-   * Accessor for the ContextName
+   * @description Accessor for the ContextName
    * @return string
    */
   public get ContextName() {
@@ -25,7 +25,7 @@ export class DependencyInjectionContext {
   }
 
   /**
-   * Adds an injector to the context
+   * @description Adds an injector to the context
    * @param injectorName
    * @param injector
    * @return void
@@ -38,7 +38,7 @@ export class DependencyInjectionContext {
   }
 
   /**
-   * Gets an injector by name from the context
+   * @description Gets an injector by name from the context
    * @param injectorName
    * @return Injector<T>
    */
@@ -49,7 +49,7 @@ export class DependencyInjectionContext {
   }
 
   /**
-   * Get all injectors of the context
+   * @description Get all injectors of the context
    * @return Injector<any>
    */
   public getAllInjectors(): Injector<any>[] {
