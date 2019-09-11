@@ -4,14 +4,14 @@ import { InjectorConstructorArgument } from "./injectorConstructorArgument";
 /**
  * @static
  * @class InjectorFactory
- * The InjectorFactory is a static class that helps creating injectors for userObjects.
+ * @description The InjectorFactory is a static class that helps creating injectors for userObjects.
  */
 export class InjectorFactory {
   private constructor() {}
 
   /**
-   * Creates an injector for the provided arguments. YOu can either provide an array of InjectorConstructorArguments
-   * or any as the constructor arguments.
+   * @description Creates an injector for the provided arguments. YOu can either provide an array of
+   * InjectorConstructorArguments or any as the constructor arguments.
    * @param classConstructor
    * @param classConstructorArguments
    * @return Injector<T>
