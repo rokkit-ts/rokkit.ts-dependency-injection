@@ -11,18 +11,18 @@ import {
 
 /**
  * @class DependencyInjectionDecoratorHelper
- * Static helper class for the decorators. These methods should only be used internally.
+ * @description Static helper class for the decorators. These methods should only be used internally.
  */
 export class DependencyInjectionDecoratorHelper {
   /**
-   * Reflection key for the constructor arguments.
+   * @description Reflection key for the constructor arguments.
    */
   public static readonly INJECTABLE_CONSTRUCTOR_ARGUMENTS = Symbol(
     "injection-parameters"
   );
 
   /**
-   * Creates and registers the Injector on the dependencyInjectionAssembler
+   * @description Creates and registers the Injector on the dependencyInjectionAssembler
    * @param constructor
    * @param fileName
    * @param contextName
@@ -60,7 +60,7 @@ export class DependencyInjectionDecoratorHelper {
   }
 
   /**
-   * Registers any argument in the meta data of the provided constructor function.
+   * @description Registers any argument in the meta data of the provided constructor function.
    * @param constructor
    * @param parameterIndex
    * @param value
@@ -96,7 +96,7 @@ export class DependencyInjectionDecoratorHelper {
   }
 
   /**
-   * Gets the injector arguments of the provided constructor
+   * @description Gets the injector arguments of the provided constructor
    * @param constructor
    * @return InjectorConstructorArgument[]
    */

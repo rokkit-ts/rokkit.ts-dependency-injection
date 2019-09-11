@@ -3,8 +3,8 @@ import dependencyInjectionAssembler from "../dependency-injection-assembler/depe
 import { DependencyInjectionDecoratorHelper } from "./dependencyInjectionDecoratorHelper";
 
 /**
- * The Injectable decorator is used to annotate a class and mark it.
- * The marked class is registered on the dependencyInjectionAssembler singleton.
+ * @description The Injectable decorator is used to annotate a class and mark it. The marked class is registered on
+ * the dependencyInjectionAssembler singleton.
  * @param fileName
  * @param contextName
  */
@@ -18,8 +18,8 @@ export function Injectable(fileName?: string, contextName?: string): Function {
 }
 
 /**
- * The Inject decorator provides the given value to the specified argument.
- * Could only be used on a constructor function, otherwise a error is thrown.
+ * @description The Inject decorator provides the given value to the specified argument. Could only be used on a
+ * constructor function, otherwise a error is thrown.
  * @param injectionValue
  */
 export function Inject(injectionValue: any): Function {
