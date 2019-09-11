@@ -19,7 +19,7 @@ class DependencyInjectionAssembler {
   }
 
   /**
-   * Registers a context on the assembler.
+   * @description Registers a context on the assembler.
    * @param context
    */
   public registerContext(context: DependencyInjectionContext): void {
@@ -31,7 +31,7 @@ class DependencyInjectionAssembler {
   }
 
   /**
-   * Creates and registers a context on the assembler.
+   * @description Creates and registers a context on the assembler.
    * @param contextName
    */
   public createContext(contextName: string): void {
@@ -44,8 +44,8 @@ class DependencyInjectionAssembler {
   }
 
   /**
-   * Retrieve context for the given contextName.
-   * Returns undefined when there is no context for the provided argument.
+   * @description Retrieve context for the given contextName. Returns undefined when there is no context for the
+   * provided argument.
    * @param contextName
    * @return DependencyInjectionContext
    */
@@ -61,14 +61,14 @@ class DependencyInjectionAssembler {
   }
 
   /**
-   * Retrieves the default context
+   * @description Retrieves the default context
    */
   public retrieveDefaultContext(): DependencyInjectionContext {
     return this.defaultContext;
   }
 
   /**
-   * Checks if the given context or contextName is present on the assembler instance.
+   * @description Checks if the given context or contextName is present on the assembler instance.
    * @param context
    */
   public doesContextExist(
@@ -92,8 +92,8 @@ class DependencyInjectionAssembler {
   }
 
   /**
-   * Registers an injector on a specific context for the given contextName.
-   * If the contextName is not provided the injector will be registered no the default context.
+   * @description Registers an injector on a specific context for the given contextName. If the contextName is not
+   * provided the injector will be registered no the default context.
    * @param injector
    * @param contextName
    */
@@ -112,9 +112,8 @@ class DependencyInjectionAssembler {
   }
 
   /**
-   * Retrieves the specified injector its injectorName and the contextName.
-   * If the contextName is not specified, the method will query all contexts.
-   * Could possible be undefined if there is no injector with this name.
+   * @description Retrieves the specified injector its injectorName and the contextName. If the contextName is not
+   * specified, the method will query all contexts. Could possible be undefined if there is no injector with this name.
    * @param injectorName
    * @param contextName
    * @return Injector<T>
@@ -142,8 +141,8 @@ class DependencyInjectionAssembler {
   }
 
   /**
-   * Retrieves the specified injector by the default context.
-   * Could possible be undefined if there is no injector with this name.
+   * @description Retrieves the specified injector by the default context. Could possible be undefined if there is
+   * no injector with this name.
    * @param injectorName
    * @return Injector<T>
    */
@@ -154,6 +153,9 @@ class DependencyInjectionAssembler {
   }
 }
 
+/**
+ * @export Singleton instance of the class DependencyInjectionAssembler
+ * @description This instance is the only API to the DependencyInjectionAssembler.
+ */
 const dependencyInjectionAssembler: DependencyInjectionAssembler = new DependencyInjectionAssembler();
-
 export default dependencyInjectionAssembler;
