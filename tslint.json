@@ -36,7 +36,7 @@
     "interface-name": [true, "never-prefix"],
     "interface-over-type-literal": true,
     "jsdoc-format": true,
-    "linebreak-style": [true, "CRLF"],
+    "linebreak-style": [true, "LF"],
     "next-line": [true, "check-catch", "check-else"],
     "no-bom": true,
     "no-double-space": true,
