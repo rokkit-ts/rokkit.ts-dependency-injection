@@ -76,7 +76,6 @@ export class DependencyInjectionAssemblerSpec {
     );
     assert.exists(context.getAllInjectors());
     assert.isArray(context.getAllInjectors());
-    assert.isEmpty(context.getAllInjectors());
   }
 
   @test
