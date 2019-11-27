@@ -1,5 +1,7 @@
 # rokkit.ts-dependency-injection
 
+[![Build Status](https://travis-ci.com/rokkit-ts/rokkit.ts-dependency-injection.svg?branch=master)](https://travis-ci.com/rokkit-ts/rokkit.ts-dependency-injection)
+
 TypeScript dependency injection library using decorators for the rokkit.ts framework and other projects.
 
 ## Install and Build
