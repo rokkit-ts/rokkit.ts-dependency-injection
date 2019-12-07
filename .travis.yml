@@ -11,7 +11,10 @@ jobs:
       script: npm build
       deploy:
         provider: npm
-        api_key:
-          secure: FQLso3H2cghY/p3xBYzCEzHX+Eh3taunV95gq5LJy8kwuUrdWtb3yJI431XrinKciCgE8f5rmdAELrVKHXyjeMEIp9KDX+i929IdMHmGvYr4VB1RqYz8b1MOavznF5PYPUbcTub9sjr787qiCv/tPKT2QFG3xLGycB8CTi7qRBbpIbljlNNuS4wG/l/XFs9bOblwaVXuTJachs5q2uLaE7IKdVIq9Loy+TnSauCWdQ+SShrdpHTLmFSWEPWstJz4/mQmYESO8Dhz7NolXeV6jwzqqNCOGea3JkZCKz6Br2Uoic9JwZOKyRjO4pvlISsYdaRjzqXp6xG83AvCpbBXJZd0wpYYqSmeEapogRMo/OMGtZEMmOK5w5ysWzRczAwAwB1qa4yhqk+3J/6O23NWbDqcA5yMhcfzsDG/o8HdN8TUAtSx+0kg7DA3zi1+zrOr43m/wnvDuvBXjRQOUo3ChOzLSZR4Q9RESQ4hlZldIrwLJzIzI0bw9qwRR2asK8I1z7wqyNFDAY6B58OV+bGY49jSOMsTSRcA0kGk47eag2R7SxlxLqE/PkST4/uTvI5cmuberp4pkUwmX6nJSB/QC4KQCfDi1TfHorN3K5k9DMAPKKoM8oBXVLlAFtMX5SHJtw9fDNC1h6GoTQc0YYxKC2D/eohVv0vc9ARXAYQtTIY=
+        edge: true
+        email: "$NPM_USER"
+        api_key: "$NPM_TOKEN"
         on:
           tags: true
+          repo: rokkit-ts/rokkit.ts-dependency-injection
+        skip_cleanup: true
