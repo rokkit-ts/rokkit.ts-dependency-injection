@@ -21,7 +21,16 @@ export class AutoClassDeclarationSpec {
     assert.exists(classDeclaration);
     assert.isNotEmpty(classDeclaration);
     if (classDeclaration) {
-      assert.equal(classDeclaration.filePath, __filename.replace(/\\/g, "/"));
+      assert.equal(
+        classDeclaration.sourceFilePath,
+        __filename.replace(/\\/g, "/")
+      );
+      assert.equal(
+        classDeclaration.compiledFilePath,
+        (__filename.substr(0, __filename.lastIndexOf(".ts")) + ".js")
+          .replace(/\\/g, "/")
+          .replace("src", "build")
+      );
       assert.equal(
         classDeclaration.classInformation.className,
         "AutoClassDeclarationTestClass"
@@ -44,7 +53,16 @@ export class AutoClassDeclarationSpec {
     assert.exists(classDeclaration);
     assert.isNotEmpty(classDeclaration);
     if (classDeclaration) {
-      assert.equal(classDeclaration.filePath, __filename.replace(/\\/g, "/"));
+      assert.equal(
+        classDeclaration.sourceFilePath,
+        __filename.replace(/\\/g, "/")
+      );
+      assert.equal(
+        classDeclaration.compiledFilePath,
+        (__filename.substr(0, __filename.lastIndexOf(".")) + ".js")
+          .replace(/\\/g, "/")
+          .replace("src", "build")
+      );
       assert.equal(
         classDeclaration.classInformation.className,
         "AutoClassDeclarationTestClass"
@@ -90,5 +108,6 @@ export class AutoClassDeclarationSpec {
 
 // tslint:disable-next-line:max-classes-per-file
 class AutoClassDeclarationTestClass {
+  // tslint:disable-next-line:no-empty
   constructor(aString: string) {}
 }

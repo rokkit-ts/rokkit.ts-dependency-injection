@@ -16,20 +16,38 @@ import { InjectorConstructorArgument } from "../injector";
  */
 class AutoClassDeclaration {
   // TODO test multiple paths for src directory if possible!
-  public readonly DEFAULT_SCAN_PATH = "./src";
+  public readonly DEFAULT_SOURCE_DIR = "src";
+  public readonly DEFAULT_OUT_DIR = "build";
+  public readonly DEFAULT_CONFIG_DIR = "rokkit-declaration";
+  public readonly DEFAULT_CONFIG_NAME = "class-declarations.json";
+
+  public readonly isProd: boolean = true;
+
   private classDeclarations: ClassDeclaration[];
 
   constructor() {
-    const sourceScanDir: string | undefined = process.env.SRC_SCAN_DIR;
-    if (sourceScanDir) {
-      this.classDeclarations = ClassDeclarationResolver.createClassDeclarations(
-        sourceScanDir
-      );
-    } else {
-      this.classDeclarations = ClassDeclarationResolver.createClassDeclarations(
-        this.DEFAULT_SCAN_PATH
+    const sourceScanDir: string =
+      process.env.SOURCE_DIR || this.DEFAULT_SOURCE_DIR;
+    const outDir = process.env.OUT_DIR || this.DEFAULT_OUT_DIR;
+    const configDir = process.env.OUT_DIR || this.DEFAULT_CONFIG_DIR;
+
+    const projectRootDir = ".";
+    const environment: string | undefined = process.env.NODE_ENV;
+
+    if (environment !== "production") {
+      this.isProd = false;
+      ClassDeclarationResolver.createClassDeclarationFile(
+        projectRootDir,
+        sourceScanDir,
+        configDir,
+        this.DEFAULT_CONFIG_NAME,
+        outDir
       );
     }
+
+    this.classDeclarations = ClassDeclarationResolver.importClassDeclarationFromFile(
+      path.join(projectRootDir, configDir, this.DEFAULT_CONFIG_NAME)
+    );
   }
 
   /**
@@ -69,8 +87,11 @@ class AutoClassDeclaration {
   ): ClassDeclaration | undefined {
     return this.classDeclarations.find(classDeclaration => {
       return (
-        path.normalize(classDeclaration.filePath) ===
-          path.normalize(fileName) &&
+        (path.normalize(classDeclaration.sourceFilePath) ===
+          path.normalize(fileName) ||
+          (classDeclaration.compiledFilePath &&
+            path.normalize(classDeclaration.compiledFilePath) ===
+              path.normalize(fileName))) &&
         classDeclaration.classInformation.className === className
       );
     });

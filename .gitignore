@@ -179,3 +179,4 @@ typings/
 # Exclude dist
 dist
 lib
+rokkit-declaration
