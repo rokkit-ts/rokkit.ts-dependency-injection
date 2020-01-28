@@ -1,6 +1,6 @@
 {
   "name": "@rokkit.ts/dependency-injection",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "TypeScript dependency injection library using decorators for the rokkit.ts framework and other projects",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
