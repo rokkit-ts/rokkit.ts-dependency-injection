@@ -8,7 +8,7 @@ jobs:
       script: npm test
     - stage: deploy
       name: Deploy to NPM
-      script: npm build
+      script: npm run build
       deploy:
         provider: npm
         edge: true
