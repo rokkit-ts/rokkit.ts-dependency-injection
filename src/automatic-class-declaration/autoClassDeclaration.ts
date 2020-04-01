@@ -3,10 +3,10 @@ import {
   ClassDeclarationResolver,
   ConstructorDeclaration,
   ConstructorParameter
-} from "@rokkit.ts/class-declaration-resolver";
-import * as path from "path";
-import dependencyInjectionAssembler from "../dependency-injection-assembler/dependencyInjectionAssembler";
-import { InjectorConstructorArgument } from "../injector";
+} from '@rokkit.ts/class-declaration-resolver'
+import * as path from 'path'
+import dependencyInjectionAssembler from '../dependency-injection-assembler/dependencyInjectionAssembler'
+import { InjectorConstructorArgument } from '../injector'
 
 /**
  * @class AutoClassDeclaration
@@ -16,38 +16,38 @@ import { InjectorConstructorArgument } from "../injector";
  */
 class AutoClassDeclaration {
   // TODO test multiple paths for src directory if possible!
-  public readonly DEFAULT_SOURCE_DIR = "src";
-  public readonly DEFAULT_OUT_DIR = "build";
-  public readonly DEFAULT_CONFIG_DIR = "rokkit-declaration";
-  public readonly DEFAULT_CONFIG_NAME = "class-declarations.json";
+  public readonly DEFAULT_SOURCE_DIR = 'src'
+  public readonly DEFAULT_OUT_DIR = 'build'
+  public readonly DEFAULT_CONFIG_DIR = 'rokkit-declaration'
+  public readonly DEFAULT_CONFIG_NAME = 'class-declarations.json'
 
-  public readonly isProd: boolean = true;
+  public readonly isProd: boolean = true
 
-  private classDeclarations: ClassDeclaration[];
+  private classDeclarations: ClassDeclaration[]
 
   constructor() {
     const sourceScanDir: string =
-      process.env.SOURCE_DIR || this.DEFAULT_SOURCE_DIR;
-    const outDir = process.env.OUT_DIR || this.DEFAULT_OUT_DIR;
-    const configDir = process.env.OUT_DIR || this.DEFAULT_CONFIG_DIR;
+      process.env.SOURCE_DIR || this.DEFAULT_SOURCE_DIR
+    const outDir = process.env.OUT_DIR || this.DEFAULT_OUT_DIR
+    const configDir = process.env.OUT_DIR || this.DEFAULT_CONFIG_DIR
 
-    const projectRootDir = ".";
-    const environment: string | undefined = process.env.NODE_ENV;
+    const projectRootDir = '.'
+    const environment: string | undefined = process.env.NODE_ENV
 
-    if (environment !== "production") {
-      this.isProd = false;
+    if (environment !== 'production') {
+      this.isProd = false
       ClassDeclarationResolver.createClassDeclarationFile(
         projectRootDir,
         sourceScanDir,
         configDir,
         this.DEFAULT_CONFIG_NAME,
         outDir
-      );
+      )
     }
 
     this.classDeclarations = ClassDeclarationResolver.importClassDeclarationFromFile(
       path.join(projectRootDir, configDir, this.DEFAULT_CONFIG_NAME)
-    );
+    )
   }
 
   /**
@@ -56,7 +56,7 @@ class AutoClassDeclaration {
    * @return ReadonlyArray<ClassDeclaration>
    */
   public get ClassDeclarations(): ReadonlyArray<ClassDeclaration> {
-    return this.classDeclarations;
+    return this.classDeclarations
   }
 
   /**
@@ -71,7 +71,7 @@ class AutoClassDeclaration {
     return this.classDeclarations.find(
       classDeclaration =>
         classDeclaration.classInformation.className === className
-    );
+    )
   }
 
   /**
@@ -93,8 +93,8 @@ class AutoClassDeclaration {
             path.normalize(classDeclaration.compiledFilePath) ===
               path.normalize(fileName))) &&
         classDeclaration.classInformation.className === className
-      );
-    });
+      )
+    })
   }
 
   /**
@@ -105,8 +105,8 @@ class AutoClassDeclaration {
   public createNewClassDeclarations(sourceScanDirectory: string): void {
     this.classDeclarations = ClassDeclarationResolver.createClassDeclarations(
       sourceScanDirectory
-    );
-    this.updateInjectors();
+    )
+    this.updateInjectors()
   }
 
   /**
@@ -121,13 +121,13 @@ class AutoClassDeclaration {
     oldArgs: InjectorConstructorArgument[]
   ): InjectorConstructorArgument[] {
     return newArgs.map((parameter, index) => {
-      const oldArg = oldArgs.find(arg => arg.index === index);
+      const oldArg = oldArgs.find(arg => arg.index === index)
       return {
         index,
         type: parameter.type,
         value: oldArg ? oldArg.value : undefined
-      };
-    });
+      }
+    })
   }
 
   /**
@@ -141,36 +141,36 @@ class AutoClassDeclaration {
     current: ConstructorDeclaration,
     next: ConstructorDeclaration
   ): number {
-    if (current.parameters.length > next.parameters.length) return 1;
-    if (current.parameters.length < next.parameters.length) return -1;
-    return 0;
+    if (current.parameters.length > next.parameters.length) return 1
+    if (current.parameters.length < next.parameters.length) return -1
+    return 0
   }
 
   private updateInjectors(): void {
-    this.ClassDeclarations.forEach(this.updateInjector);
+    this.ClassDeclarations.forEach(this.updateInjector)
   }
 
   private updateInjector(classDeclaration: ClassDeclaration): void {
-    const className = classDeclaration.classInformation.className;
-    const injector = dependencyInjectionAssembler.retrieveInjector(className);
+    const className = classDeclaration.classInformation.className
+    const injector = dependencyInjectionAssembler.retrieveInjector(className)
     if (injector) {
-      const currentCtorArguments = injector.ClassConstructorArguments;
+      const currentCtorArguments = injector.ClassConstructorArguments
       classDeclaration.classInformation.constructors.sort(
         this.sortClassConstructorDeclarations
-      );
+      )
       injector.ClassConstructorArguments = this.mapOldToNewCtorArguments(
         classDeclaration.classInformation.constructors[0].parameters,
         currentCtorArguments
-      );
+      )
     }
   }
 }
 
-const autoClassDeclaration: AutoClassDeclaration = new AutoClassDeclaration();
+const autoClassDeclaration: AutoClassDeclaration = new AutoClassDeclaration()
 
 /**
  * @export Singleton instance of the class AutoClassDeclaration
  * @description This instance is the only API to the classDeclarations. This class should only be used by internal
  * components and not by the users.
  */
-export default autoClassDeclaration;
+export default autoClassDeclaration
