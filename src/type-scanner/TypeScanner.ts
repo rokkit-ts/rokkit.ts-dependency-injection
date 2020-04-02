@@ -4,7 +4,7 @@ import {
   ConstructorParameter
 } from '@rokkit.ts/class-declaration-resolver'
 import { join } from 'path'
-import { InjectorConstructorArgument } from './injector'
+import { InjectorConstructorArgument } from '../injector'
 
 /**
  * @class TypeScanner
@@ -62,19 +62,23 @@ class TypeScanner {
   }
 
   public injectorArgumentsFor(injectorname: string): ConstructorParameter[] {
-    const classInformation = this.classDeclarations.find(
-      classDeclaration =>
-        classDeclaration.classInformation.className === injectorname
+    const classDeclaration = this.classDeclarations.find(
+      declaration => declaration.classInformation.className === injectorname
     )
 
-    if (!classInformation) {
+    if (!classDeclaration) {
       throw new Error(
         `Could not find any classDeclaration for the name ${injectorname}`
       )
     }
 
-    // TODO: always use the first contructor for now! Should maybe take the one with the longest list of params.
-    return classInformation.classInformation.constructors[0].parameters
+    classDeclaration.classInformation.constructors.sort((a, b) => {
+      if (a.parameters.length > b.parameters.length) return 1
+      if (a.parameters.length < b.parameters.length) return -1
+      return 0
+    })
+
+    return classDeclaration.classInformation.constructors[0].parameters
   }
 }
 

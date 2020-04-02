@@ -10,5 +10,4 @@
  * @description
  * Entry point from which you should import the dependency injection decorator APIs.
  */
-export * from "./dependencyInjectionDecorators";
-export * from "./dependencyInjectionDecoratorHelper";
+export * from './Decorators'

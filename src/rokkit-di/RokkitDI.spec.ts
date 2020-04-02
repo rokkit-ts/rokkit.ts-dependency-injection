@@ -36,6 +36,18 @@ describe('RokkitDI', () => {
     expect(instance.aString).toEqual('some string for test1')
     expect(instance.anObject).toEqual(new Test2('some string'))
   })
+
+  it('should throw error when creating singleton and there is no injector', () => {
+    expect(() => RokkitDI.singletonOf('NotRegistered')).toThrow(
+      'Could not instantiate a singlton of NotRegistered: Could not instantiate an instance of NotRegistered: : Could not find a registered injector for the name: NotRegistered.'
+    )
+  })
+
+  it('should throw error when creating instaceOf and there is no injector', () => {
+    expect(() => RokkitDI.instanceOf('NotRegistered')).toThrow(
+      'Could not instantiate an instance of NotRegistered: : Could not find a registered injector for the name: NotRegistered.'
+    )
+  })
 })
 
 class Test {

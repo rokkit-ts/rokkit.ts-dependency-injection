@@ -1,6 +1,4 @@
-import dependencyInjectionAssembler from '../dependency-injection-assembler/dependencyInjectionAssembler'
 import { InjectorConstructorArgument } from './injectorConstructorArgument'
-import { RokkitDI } from '../RokkitDI'
 
 /**
  * @description The Injector class is used to store type information about a specific userObject. These information
@@ -48,34 +46,6 @@ export class Injector<T extends object> {
     this.classConstructorArguments = classConstructorArguments
   }
 
-  private static convertInjectorArgumentToInstanceArgument(
-    argument: InjectorConstructorArgument
-  ): any {
-    if (argument.value) {
-      return argument.value
-    }
-    if (Injector.isUserObject(argument)) {
-      return RokkitDI.singletonOf(argument.type)
-    } else {
-      throw new Error(
-        'Could not instantiate native values without the @Inject annotation.'
-      )
-    }
-  }
-
-  private static isUserObject(argument: InjectorConstructorArgument): boolean {
-    return !(
-      argument.type === 'string' ||
-      argument.type === 'bigint' ||
-      argument.type === 'object' ||
-      argument.type === 'number' ||
-      argument.type === 'undefined' ||
-      argument.type === 'boolean' ||
-      argument.type === 'symbol' ||
-      argument.type === 'function'
-    )
-  }
-
   /**
    * @description Creates an instance of the userObject. Therefore checks the constructorArguments for injected
    * values or special user objects. Every user object argument that has no explicit provided value will be query by
@@ -83,16 +53,33 @@ export class Injector<T extends object> {
    * @return T
    */
   public createInstance(): T {
-    const args: any[] = this.createInstanceConstructorArguments()
-    return new this.classType(...args)
+    try {
+      const args: any[] = this.getConstructorArgs()
+      return new this.classType(...args)
+    } catch (error) {
+      throw error
+    }
   }
 
-  private createInstanceConstructorArguments(): any[] {
-    this.sortInjectorConstructorArguments()
+  private mapToValue(argument: InjectorConstructorArgument): any {
+    if (argument.value) {
+      return argument.value
+    } else {
+      throw new Error(
+        `Missing value for argument ${argument.type} at index ${argument.index}`
+      )
+    }
+  }
 
-    return this.classConstructorArguments.map(
-      Injector.convertInjectorArgumentToInstanceArgument
-    )
+  private getConstructorArgs(): any[] {
+    this.sortInjectorConstructorArguments()
+    try {
+      return this.classConstructorArguments.map(this.mapToValue)
+    } catch (error) {
+      throw new Error(
+        `Could not instantiate class ${this.className} due to: ${error.message}`
+      )
+    }
   }
 
   private sortInjectorConstructorArguments(): void {

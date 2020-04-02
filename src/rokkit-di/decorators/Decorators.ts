@@ -1,6 +1,5 @@
-import "reflect-metadata";
-import dependencyInjectionAssembler from "../dependency-injection-assembler/dependencyInjectionAssembler";
-import { DependencyInjectionDecoratorHelper } from "./dependencyInjectionDecoratorHelper";
+import 'reflect-metadata'
+import { DecoratorHelper } from './DecoratorHelper'
 
 /**
  * @description The Injectable decorator is used to annotate a class and mark it. The marked class is registered on
@@ -8,13 +7,9 @@ import { DependencyInjectionDecoratorHelper } from "./dependencyInjectionDecorat
  * @param fileName
  * @param contextName
  */
-export function Injectable(fileName?: string, contextName?: string): Function {
+export function Injectable(fileName?: string): Function {
   return <T extends new (...args: any[]) => {}>(constructor: T) =>
-    DependencyInjectionDecoratorHelper.registerInjectorOnAssembler(
-      constructor,
-      fileName,
-      contextName || dependencyInjectionAssembler.DEFAULT_CONTEXT_NAME
-    );
+    DecoratorHelper.registerInjectorOnAssembler(constructor, fileName)
 }
 
 /**
@@ -24,11 +19,13 @@ export function Injectable(fileName?: string, contextName?: string): Function {
  */
 export function Inject(injectionValue: any): Function {
   return (target: object, propertyKey: string, parameterIndex: number) => {
-    if (propertyKey) throw new Error("Could only be used on a constructor");
-    DependencyInjectionDecoratorHelper.registerInjectableArgument(
+    if (propertyKey) {
+      throw new Error('@Inject can only be used on a constructor')
+    }
+    DecoratorHelper.registerInjectableArgument(
       target as Function,
       parameterIndex,
       injectionValue
-    );
-  };
+    )
+  }
 }

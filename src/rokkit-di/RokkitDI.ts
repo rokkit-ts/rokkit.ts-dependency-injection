@@ -1,9 +1,4 @@
-import {
-  Injector,
-  InjectorConstructorArgument,
-  InjectorFactory
-} from './injector'
-import { TypeScannerSingleton } from './TypeScanner'
+import { Injector, InjectorConstructorArgument, TypeScannerSingleton } from '..'
 
 /**
  * @class RokkitDI
@@ -25,10 +20,7 @@ class DependencyInjectionContainer {
       classConstructorArguments
     )
     // create injector
-    const injector = InjectorFactory.createInjector(
-      classConstructor,
-      injectorArgs
-    )
+    const injector = new Injector(classConstructor, injectorArgs)
     // register injector on static map!
     this.injectables.set(classConstructor.name, injector)
 
@@ -58,10 +50,15 @@ class DependencyInjectionContainer {
   public instanceOf(injectable: string): any {
     try {
       const injector = this.injectorFor(injectable)
+      // create values that are not present by now!
+      injector.ClassConstructorArguments = this.instanctiateArgValues(
+        injector,
+        'SINGLETON'
+      )
       return injector.createInstance()
     } catch (error) {
       throw new Error(
-        `Could not instantiate an instance of ${injectable}.\n` + error.message
+        `Could not instantiate an instance of ${injectable}: : ${error.message}`
       )
     }
   }
@@ -83,12 +80,11 @@ class DependencyInjectionContainer {
 
   private instantiateSingleton(injectable: string): {} {
     try {
-      const injector = this.injectorFor(injectable)
-      this.instances.set(injectable, injector.createInstance())
+      this.instances.set(injectable, this.instanceOf(injectable))
       return this.instances.get(injectable)!
     } catch (error) {
       throw new Error(
-        `Could not instantiate a singlton of ${injectable}.\n` + error.message
+        `Could not instantiate a singlton of ${injectable}: ${error.message}`
       )
     }
   }
@@ -101,6 +97,34 @@ class DependencyInjectionContainer {
       )
     }
     return injector
+  }
+
+  private instanctiateArgValues(
+    injector: Injector<any>,
+    mode: 'SINGLETON' | 'INSTANCE'
+  ) {
+    return injector.ClassConstructorArguments.map(arg => {
+      if (this.isUserObject(arg)) {
+        arg.value =
+          arg.value ?? mode === 'SINGLETON'
+            ? this.singletonOf(arg.type)
+            : this.injectorFor(arg.type)
+      }
+      return arg
+    })
+  }
+
+  private isUserObject(argument: InjectorConstructorArgument): boolean {
+    return !(
+      argument.type === 'string' ||
+      argument.type === 'bigint' ||
+      argument.type === 'object' ||
+      argument.type === 'number' ||
+      argument.type === 'undefined' ||
+      argument.type === 'boolean' ||
+      argument.type === 'symbol' ||
+      argument.type === 'function'
+    )
   }
 }
 

@@ -3,6 +3,8 @@
 [![Build Status](https://travis-ci.com/rokkit-ts/rokkit.ts-dependency-injection.svg?branch=master)](https://travis-ci.com/rokkit-ts/rokkit.ts-dependency-injection)
 
 TypeScript dependency injection library using decorators for the rokkit.ts framework and other projects.
+It provides a simple API to register classes and create instances of them.
+The instances are handled in one container called `RokkitDI`.
 
 ## Install and Build
 
@@ -14,53 +16,47 @@ npm install @rokkit.ts/dependency-injection
 
 ## Usage
 
+You can use two different ways of using the whole package.
+
+The first way is to register your classes by decorators.
+The second way is to use the native API of the RokkitDI container.
+
+### Using Decorators
+
 The following example show a simple usage of the package.
 The first listing shows the class that you want to be injected.
 
 ```typescript
-import { Injectable, Inject } from "@rokkit.ts/dependency-injection";
+import { Injectable, Inject } from '@rokkit.ts/dependency-injection'
 
 @Injectable()
 class DecoratedClass {
-  public foo: string;
-  public bar: number;
+  public foo: string
+  public bar: number
 
-  constructor(@Inject("test") foo: string, @Inject(0.11) public bar: number) {
-    this.foo = foo;
-    this.bar = bar;
+  constructor(@Inject('test') foo: string, @Inject(0.11) public bar: number) {
+    this.foo = foo
+    this.bar = bar
   }
 }
 ```
 
-After annotating the class, we could retrieve the injector by the "dependencyInjectionAssembler".
+After annotating the class, we can retrieve an singleton or an instance by the `RokkitDI`.
 With this injector we could now create an instance of the corresponding class.
 
 ```typescript
-import {
-  dependencyInjectionAssembler,
-  Injector
-} from "@rokkit.ts/dependency-injection";
+import { RokkitDI } from '@rokkit.ts/dependency-injection'
+const instance: DecoratedClass = RokkitDI.singletonOf('DecoratedClass')
 
-const injector: Injector<
-  DecoratedClass
-> = dependencyInjectionAssembler.retrieveInjector("DecoratedClass");
-const instance: DecoratedClass = injector.resolveInstance();
-
-console.log(`Foo: ${instance.foo}, Bar: ${instance.bar}`);
+console.log(`Foo: ${instance.foo}, Bar: ${instance.bar}`)
 // Output: Foo: test, Bar: 0.11
 ```
 
-The dependencyInjectionAssembler provides further methods to manage injectors.
-Injectors are stored in contexts. Each context is used to separate injectors.
-The dependencyInjectionAssembler provides a default context that will be used, if you will not provide furhter
-information.
+#### Automatic Constructor Argument scanning
 
-### Automatic Constructor Argument scanning
-
-The package provides the ability to scan classes arguments automatically. Furthermore the injector will look up
-userObjects in the dependencyInjectionAssembler if any constructor argument is not decorated with the <code>@Inject
+The package provides the ability to scan classes arguments automatically. If any constructor argument is not decorated with the <code>@Inject
 (value:
-any)</code> annotation.
+any)</code> annotation, the base container tries to create automatically an instance for it.
 
 #### Code Example
 
@@ -75,46 +71,64 @@ By default the source code scan will look for the source code directory "./src".
 set the environment variable <code>SRC_SCAN_DIR</code> to you preferable directory before starting your application.
 
 ```typescript
-import { Injectable, Inject } from "@rokkit.ts/dependency-injection";
+import { Injectable, Inject } from '@rokkit.ts/dependency-injection'
 
 @Injectable()
 class FirstDecoratedClass {
-  public classDependency: SecondDecoratedClass;
+  public classDependency: SecondDecoratedClass
 
   constructor(classDependency: SecondDecoratedClass) {
-    this.classDependency = classDependency;
+    this.classDependency = classDependency
   }
 }
 
 @Injectable()
 class SecondDecoratedClass {
-  public foo: string;
-  public bar: number;
+  public foo: string
+  public bar: number
 
-  constructor(@Inject("test") foo: string, @Inject(0.11) public bar: number) {
-    this.foo = foo;
-    this.bar = bar;
+  constructor(@Inject('test') foo: string, @Inject(0.11) public bar: number) {
+    this.foo = foo
+    this.bar = bar
   }
 }
 ```
 
-### API Description
+### Use the native API
+
+The native API let's you easy register an injectable class on the `RokkitDi` container.
+In order to register a class you need to provide its arguments.
+
+```typescript
+import { RokkitDI } from '@rokkit.ts/dependency-injection'
+
+class AClass {
+  constructor(public foo: string, bar: number)
+}
+
+RokkitDI.registerInjectable(AClass, [
+  { index: 0, type: 'string', value: 'test' },
+  { index: 1, type: 'number', value: 0.11 }
+])
+
+const instance: AClass = RokkitDI.singletonOf('AClass')
+
+console.log(`Foo: ${instance.foo}, Bar: ${instance.bar}`)
+// Output: Foo: test, Bar: 0.11
+```
+
+## API Description
 
 | Decorators |                                                |
 | :--------: | :--------------------------------------------- |
 |  Methods:  | <code>@Injectable(contextName?: string)</code> |
 |            | <code>@Inject(value: any)</code>               |
 
-|  Class:  | dependencyInjectionAssembler                                                     |
-| :------: | :------------------------------------------------------------------------------- |
-| Methods: | <code>createContext(contextName: string)</code>                                  |
-|          | <code>registerContext(context: DependencyInjectionContext)</code>                |
-|          | <code>retrieveContext(contextName: string)</code>                                |
-|          | <code>retrieveDefaultContext()</code>                                            |
-|          | <code>doesContextExist(context: string &#124; DependencyInjectionContext)</code> |
-|          | <code>registerInjector(injector: Injector<T>, contextName?: string)</code>       |
-|          | <code>retrieveInjector(injectorName: string, contextName?: string)</code>        |
-|          | <code>retrieveInjectorByDefaultContext(injectorName: string)</code>              |
+|  Class:  | RokkitDI                                    |
+| :------: | :------------------------------------------ |
+| Methods: | <code>registerInjectable(Class)</code>      |
+|          | <code>singletonOf(className: string)</code> |
+|          | <code>instanceOf(className: string)</code>  |
 
 ## Contribution
 

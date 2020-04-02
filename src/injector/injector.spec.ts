@@ -1,168 +1,103 @@
-import { assert, expect } from "chai";
-import { suite, test } from "mocha-typescript";
-import dependencyInjectionAssembler from "../dependency-injection-assembler/dependencyInjectionAssembler";
-import { Injector } from "./injector";
+import { Injector } from './injector'
 
-@suite()
-export class InjectorSpec {
-  @test
-  public createInjector(): void {
+describe('Injector', () => {
+  it('should create an instance of the injector', () => {
     const injector: Injector<InjectorTestClass> = new Injector(
       InjectorTestClass,
       [
         {
           index: 0,
-          type: "string",
-          value: "test"
+          type: 'string',
+          value: 'test'
         }
       ]
-    );
-    const instance: InjectorTestClass = injector.createInstance();
-    assert.exists(injector);
-    assert.isNotEmpty(injector);
-    assert.equal(injector.ClassName, "InjectorTestClass");
-    expect(injector.ClassConstructorArguments).deep.include({
-      index: 0,
-      type: "string",
-      value: "test"
-    });
-    assert.exists(instance);
-    assert.isNotEmpty(instance);
-    assert.equal(instance.aString, "test");
-  }
+    )
+    const instance: InjectorTestClass = injector.createInstance()
 
-  @test
-  public provideNativeArgumentWithOutValueAndExpectToThrowError(): void {
+    expect(instance).toBeDefined()
+    expect(instance).toEqual(new InjectorTestClass('test'))
+  })
+
+  it('should throw error when the value of native argument is undefined', () => {
     const injector: Injector<InjectorTestClass> = new Injector(
       InjectorTestClass,
       [
         {
           index: 0,
-          type: "string",
+          type: 'string',
           value: undefined
         }
       ]
-    );
+    )
 
-    expect(() => injector.createInstance()).to.throw(
-      "Could not instantiate native values without the @Inject annotation."
-    );
-  }
+    expect(() => injector.createInstance()).toThrow(
+      'Could not instantiate class InjectorTestClass due to: Missing value for argument string at index 0'
+    )
+  })
 
-  @test
-  public noRegisteredUserDependencyExpectToThrowError(): void {
+  it('should throw error when object argument could not be found.', () => {
     const injector: Injector<InjectorTestClassWithUserObject> = new Injector(
       InjectorTestClassWithUserObject,
       [
         {
           index: 0,
-          type: "string",
-          value: "test"
+          type: 'string',
+          value: 'test'
         },
         {
           index: 1,
-          type: "InjectorTestClass",
+          type: 'InjectorTestClass',
           value: undefined
         }
       ]
-    );
+    )
 
-    expect(() => injector.createInstance()).to.throw(
-      "It is not possible to find an injector of type: InjectorTestClass."
-    );
-  }
+    expect(() => injector.createInstance()).toThrowError(
+      'Could not instantiate class InjectorTestClassWithUserObject due to: Missing value for argument InjectorTestClass at index 1'
+    )
+  })
 
-  @test
-  public registeredUserDependencyExpectInstanceCreated(): void {
+  it('should create instance when the correct obj args are passed', () => {
     const injector: Injector<InjectorTestClassWithUserObject> = new Injector(
       InjectorTestClassWithUserObject,
       [
         {
           index: 0,
-          type: "string",
-          value: "test"
+          type: 'string',
+          value: 'test'
         },
         {
           index: 1,
-          type: "InjectorTestClass",
-          value: undefined
+          type: 'InjectorTestClass',
+          value: new InjectorTestClass('test')
         }
       ]
-    );
+    )
 
-    const injectorDep: Injector<InjectorTestClass> = new Injector(
-      InjectorTestClass,
-      [
-        {
-          index: 0,
-          type: "string",
-          value: "test"
-        }
-      ]
-    );
-
-    dependencyInjectionAssembler.registerInjector(injectorDep);
-
-    const instance: InjectorTestClassWithUserObject = injector.createInstance();
-    assert.exists(instance);
-    assert.isNotEmpty(instance);
-    assert.equal(instance.aString, "test");
-    assert.exists(instance.dependency);
-    assert.isNotEmpty(instance.dependency);
-    assert.equal(instance.dependency.aString, "test");
-  }
-
-  @test
-  public changeClassConstructorArgumentsOnInjector(): void {
-    const injector: Injector<InjectorTestClass> = new Injector(
-      InjectorTestClass,
-      [
-        {
-          index: 0,
-          type: "string",
-          value: "test"
-        }
-      ]
-    );
-    assert.exists(injector);
-    assert.isNotEmpty(injector);
-    assert.equal(injector.ClassName, "InjectorTestClass");
-    expect(injector.ClassConstructorArguments).deep.include({
-      index: 0,
-      type: "string",
-      value: "test"
-    });
-    injector.ClassConstructorArguments = [
-      {
-        index: 0,
-        type: "string",
-        value: "changed"
-      }
-    ];
-    expect(injector.ClassConstructorArguments).deep.include({
-      index: 0,
-      type: "string",
-      value: "changed"
-    });
-  }
-}
+    const instance: InjectorTestClassWithUserObject = injector.createInstance()
+    expect(instance).toBeDefined()
+    expect(instance.aString).toEqual('test')
+    expect(instance.dependency).toBeDefined()
+    expect(instance.dependency.aString).toEqual('test')
+  })
+})
 
 // tslint:disable-next-line:max-classes-per-file
 class InjectorTestClass {
-  public aString: string;
+  public aString: string
 
   constructor(aString: string) {
-    this.aString = aString;
+    this.aString = aString
   }
 }
 
 // tslint:disable-next-line:max-classes-per-file
 class InjectorTestClassWithUserObject {
-  public aString: string;
-  public dependency: InjectorTestClass;
+  public aString: string
+  public dependency: InjectorTestClass
 
   constructor(aString: string, dependency: InjectorTestClass) {
-    this.aString = aString;
-    this.dependency = dependency;
+    this.aString = aString
+    this.dependency = dependency
   }
 }
