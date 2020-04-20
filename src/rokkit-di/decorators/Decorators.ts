@@ -8,8 +8,10 @@ import { DecoratorHelper } from './DecoratorHelper'
  * @param contextName
  */
 export function Injectable(fileName?: string): Function {
-  return <T extends new (...args: any[]) => {}>(constructor: T) =>
+  return <T extends new (...args: any[]) => {}>(constructor: T) => {
     DecoratorHelper.registerInjectorOnAssembler(constructor, fileName)
+    return class extends constructor {}
+  }
 }
 
 /**

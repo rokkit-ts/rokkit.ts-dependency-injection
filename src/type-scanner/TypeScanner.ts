@@ -4,7 +4,6 @@ import {
   ConstructorParameter
 } from '@rokkit.ts/class-declaration-resolver'
 import { join } from 'path'
-import { InjectorConstructorArgument } from '../injector'
 
 /**
  * @class TypeScanner
