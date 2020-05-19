@@ -61,7 +61,7 @@ Please check the list in order to submit a new bug:
 
 #### How Do I Submit A (Good) Bug Report?
 
-Bugs are tracked as [GitHub issues](https://guides.github.com/features/issues/). After you've determined which repository your bug is related to, create an issue on that repository and provide the following information by filling in the issue template.
+Bugs are tracked as [GitHub issues](https://guides.github.com/features/issues/). After you've determined which repository your bug is related to, create an issue on that repository and provide the following information by filling in the [issue template](./.github/ISSUE_TEMPLATE/bug_report.md).
 
 Explain the problem and include additional details to help maintainers reproduce the problem:
 
@@ -85,7 +85,7 @@ We will guide you through the process on how to suggest enhancements to the proj
 
 #### How Do I Submit A (Good) suggestion for an enhancement?
 
-Enhancements are tracked as [GitHub issues](https://guides.github.com/features/issues/). After you've determined which repository your enhancement is related to, create an issue on that repository and provide the following information.
+Enhancements are tracked as [GitHub issues](https://guides.github.com/features/issues/). After you've determined which repository your enhancement is related to, create an issue on that repository and provide the following information in the [feature request template](./.github/ISSUE_TEMPLATE/feature_request.md).
 
 - **Use a clear and descriptive title** for the issue to identify the suggestion.
 - **Provide a step-by-step description** of the suggested enhancement in as many details as possible.
