@@ -135,6 +135,8 @@ console.log(`Foo: ${instance.foo}, Bar: ${instance.bar}`)
 All kinds of contributions are welcome, no matter how big or small.
 Before you start to contribute please read our [Code of Conduct](./CODE_OF_CONDUCT.md).
 
+In order to submit any contribution check out our [contribution guidelines](./CONTRIBUTION.md).
+
 ## License
 
 Rokkit.ts-dependency-injection is Open Source software released under the MIT License.
