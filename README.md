@@ -132,8 +132,8 @@ console.log(`Foo: ${instance.foo}, Bar: ${instance.bar}`)
 
 ## Contribution
 
-If you want to contribute to the project, please don't hesitate to send feedback, create issues or a pull request for
-open ones.
+All kinds of contributions are welcome, no matter how big or small.
+Before you start to contribute please read our [Code of Conduct](./CODE_OF_CONDUCT.md).
 
 ## License
 
